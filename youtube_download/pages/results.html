@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} 
+{% block title %} {{title}} {% endblock %} {% block content %}
+<div class="container">
+  <div class="card home-card">
+    <div class="card-content home-card-content">
+      <div class="card-title">
+        <h1 class="title" style="text-align: center;">
+          Result
+        </h1>
+      </div>
+      <div class="results">
+          {% for resolution in resolutions %}
+          <div class="card">
+              <div class="card-content">
+                <img src="{{video.thumbnail_url}}" alt=""/>
+                <div class="results-text">
+                  <p class="subtitle">{{video.title}}</p>
+                  <p> Youtube channel: {{video.author}}</p>
+                  <p>Video resolution: {{resolution}}</p>
+                </div> 
+              </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

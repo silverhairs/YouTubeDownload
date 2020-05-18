@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card home-card">
+        <div class="card-content home-card-content">
+            <div class="card-title">
+                <h1 class="title" style="text-align: center;">Paste the link here 👇️</h1>
+            </div>
+            <form method="POST">
+                {{form.hidden_tag()}}
+                <div class="field">
+                    <div class="control">
+                        {{form.video_url(class='input', placeholder="Video URL here")}}
+                    </div>
+                </div>
+                {{form.search(class="button is-success search-btn")}}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

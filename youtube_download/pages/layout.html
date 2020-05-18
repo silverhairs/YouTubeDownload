@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bulma.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bulma.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bulma.css.map')}}"
+    />
+    <title>Youtube Download: {% block title %}{% endblock title %}</title>
+  </head>
+  <body>
+    <div class="content">
+      <header>
+        <nav class="navbar is-dark">
+          <a href="{{url_for('index')}}" class="nav-brand">
+            <img
+              src="{{url_for('static', filename='images/logo.png')}}"
+              alt="logo"
+              height="80"
+              width="80"
+            /> <span class="title" style="color: #fff;">YouTube Download</span>
+          </a>
+        </nav>
+      </header>
+      <main>
+        {% block content %} {% endblock content %}
+      </main>
+    </div>
+    <footer>
+      <p>&copy; <span id="year"></span> Boris Kayi 🤠️</p>
+    </footer>
+  </body>
+  <script>
+    var date = new Date().getFullYear();
+    document.getElementById("year").innerHTML = date;
+  </script>
+  <script src="{{url_for('static', filename='js/bundle.js')}}"></script>
+</html>
