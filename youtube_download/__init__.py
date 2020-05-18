@@ -1,5 +1,5 @@
 from flask import Flask
-from youtube_download.keys import secret_key
+from youtube_download.keys import secret_key # This file is hidden
 import os
 
 templates_dir = os.path.abspath('youtube_download/pages/')
