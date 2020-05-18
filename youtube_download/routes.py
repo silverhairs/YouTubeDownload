@@ -43,4 +43,4 @@ def download_video():
     return send_file(
         video.streams.filter(progressive=True,
                              file_extension='mp4',
-                             resolution=resolution).first().download())
+                             resolution=resolution).first().download(), as_attachment=True)
