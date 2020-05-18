@@ -1,5 +1,5 @@
 from youtube_download import app
-from flask import render_template, redirect, url_for, request, session
+from flask import render_template, redirect, url_for, request, session, send_file
 from pytube import YouTube
 from youtube_download.forms import SearchForm
 
@@ -19,7 +19,7 @@ def index():
 def results():
     title = 'Result'
     yt_url = request.args['yt_url']
-    session['video_url'] = yt_url;
+    session['video_url'] = yt_url
     video = YouTube(yt_url)
     resolutions = [
         stream.resolution
@@ -40,6 +40,7 @@ def download_video():
     resolution = request.args['resolution']
     video = session.get('video_url', None)
     video = YouTube(video)
-    return video.streams.filter(progressive=True,
-                                file_extension='mp4',
-                                resolution=resolution).first().download()
+    return send_file(
+        video.streams.filter(progressive=True,
+                             file_extension='mp4',
+                             resolution=resolution).first().download())
