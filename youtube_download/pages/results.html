@@ -1,5 +1,6 @@
 {% extends 'layout.html' %} 
-{% block title %} {{title}} {% endblock %} {% block content %}
+{% block title %} {{title}} {% endblock %} 
+{% block content %}
 <div class="container">
   <div class="card home-card">
     <div class="card-content home-card-content">
@@ -17,6 +18,7 @@
                   <p class="subtitle">{{video.title}}</p>
                   <p> Youtube channel: {{video.author}}</p>
                   <p>Video resolution: {{resolution}}</p>
+                  <a href="{{url_for('download_video', resolution=resolution)}}" target="blank" class="button is-success">Download</a>
                 </div> 
               </div>
           </div>
@@ -25,4 +27,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% endblock content%}

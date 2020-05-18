@@ -19,6 +19,27 @@ def index():
 def results():
     title = 'Result'
     yt_url = request.args['yt_url']
+    session['video_url'] = yt_url;
     video = YouTube(yt_url)
-    resolutions = [stream.resolution for stream in video.streams.filter(progressive=True, file_extension='mp4')]
-    return render_template('results.html', video=video, title=title, resolutions=resolutions)
+    resolutions = [
+        stream.resolution
+        for stream in video.streams.filter(progressive=True,
+                                           file_extension='mp4')
+    ]
+    return render_template(
+        'results.html',
+        video=video,
+        title=title,
+        resolutions=resolutions,
+    )
+
+
+# -> Return video
+@app.route('/download')
+def download_video():
+    resolution = request.args['resolution']
+    video = session.get('video_url', None)
+    video = YouTube(video)
+    return video.streams.filter(progressive=True,
+                                file_extension='mp4',
+                                resolution=resolution).first().download()
