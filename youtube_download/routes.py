@@ -18,6 +18,7 @@ def index():
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     title = 'Result'
+    form = SearchForm()
     yt_url = request.args['yt_url']
     session['video_url'] = yt_url
     video = YouTube(yt_url)
@@ -26,12 +27,25 @@ def results():
         for stream in video.streams.filter(progressive=True,
                                            file_extension='mp4')
     ]
-    return render_template(
-        'results.html',
-        video=video,
-        title=title,
-        resolutions=resolutions,
-    )
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            video = YouTube(form.video_url.data)
+            session['video_url'] = form.video_url.data
+            return render_template(
+                'results.html',
+                video=video,
+                resolutions=resolutions,
+                form=form,
+            )
+
+    elif request.method == 'GET':
+        return render_template(
+            'results.html',
+            video=video,
+            title=title,
+            resolutions=resolutions,
+            form=form,
+        )
 
 
 # -> Return video
@@ -43,4 +57,6 @@ def download_video():
     return send_file(
         video.streams.filter(progressive=True,
                              file_extension='mp4',
-                             resolution=resolution).first().download(), as_attachment=True)
+                             resolution=resolution).first().download(),
+        as_attachment=True,
+    )

@@ -4,25 +4,36 @@
 <div class="container">
   <div class="card home-card">
     <div class="card-content home-card-content">
-      <div class="card-title">
-        <h1 class="title" style="text-align: center;">
-          Result
-        </h1>
-      </div>
+        <div class="card-title">
+            <h1 class="title" style="text-align: center;">Paste the link here 👇️</h1>
+        </div>
+        <form method="POST">
+            {{form.hidden_tag()}}
+            <div class="field">
+                <div class="control">
+                    {{form.video_url(class='input', placeholder="Video URL here")}}
+                </div>
+            </div>
+            {{form.search(class="button is-success search-btn")}}
+        </form>
+        <p class="title is-4">Result</p>
       <div class="results">
-          {% for resolution in resolutions %}
           <div class="card">
-              <div class="card-content">
+              <div class="card-content results-content">
                 <img src="{{video.thumbnail_url}}" alt=""/>
                 <div class="results-text">
                   <p class="subtitle">{{video.title}}</p>
-                  <p> Youtube channel: {{video.author}}</p>
-                  <p>Video resolution: {{resolution}}</p>
+                  <p style="font-weight: bold;">Uploaded by: {{video.author}}</p>
+                  <p style="font-weight: bold;">Available video resolutions: {{resolution}}</p>
+                  {% for resolution in resolutions %}
+                  <div class="resolution-row">
+                      <p class="subtitle is-6">{{resolution}}</p>
                   <a href="{{url_for('download_video', resolution=resolution)}}" target="blank" class="button is-success">Download</a>
+                  </div>
+                  {% endfor %}
                 </div> 
               </div>
           </div>
-        {% endfor %}
       </div>
     </div>
   </div>
