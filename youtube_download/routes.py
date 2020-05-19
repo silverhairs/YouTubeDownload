@@ -1,6 +1,7 @@
 from youtube_download import app
-from flask import render_template, redirect, url_for, request, session, send_file
+from flask import render_template, redirect, url_for, request, session, send_file, flash
 from pytube import YouTube
+from pytube.exceptions import RegexMatchError, LiveStreamError, VideoUnavailable
 from youtube_download.forms import SearchForm
 
 
@@ -20,23 +21,34 @@ def results():
     title = 'Result'
     form = SearchForm()
     yt_url = request.args['yt_url']
+    video = None
     session['video_url'] = yt_url
-    video = YouTube(yt_url)
-    resolutions = [
+    try:
+        video = YouTube(yt_url)
+    except RegexMatchError:
+        flash('Something is wrong with your link', 'is-danger is-light')
+        return redirect(url_for('index'))
+    except LiveStreamError:
+        flash('Sorry, that video is a Live stream', 'is-info is-light')
+        return redirect(url_for('index'))
+    except VideoUnavailable:
+        flash('Video not available', 'is-danger is-light')
+        return redirect(url_for('index'))
+    resolutions = ([
         stream.resolution
         for stream in video.streams.filter(progressive=True,
                                            file_extension='mp4')
-    ]
+    ] if video is YouTube else [])
     if request.method == 'POST':
         if form.validate_on_submit():
-            video = YouTube(form.video_url.data)
-            session['video_url'] = form.video_url.data
-            return render_template(
-                'results.html',
-                video=video,
-                resolutions=resolutions,
-                form=form,
-            )
+            return redirect(url_for('results', yt_url=form.video_url.data))
+            # session['video_url'] = form.video_url.data
+            # return render_template(
+            #     'results.html',
+            #     video=video,
+            #     resolutions=resolutions,
+            #     form=form,
+            # )
 
     elif request.method == 'GET':
         return render_template(

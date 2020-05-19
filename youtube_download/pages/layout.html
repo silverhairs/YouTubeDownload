@@ -27,11 +27,22 @@
               alt="logo"
               height="80"
               width="80"
-            /> <span class="title" style="color: #fff;">YouTube Download</span>
+            />
+            <span class="title" style="color: #fff;">YouTube Download</span>
           </a>
         </nav>
       </header>
       <main>
+        {% with messages = get_flashed_messages(with_categories=true) %} 
+            {% if messages %} 
+              {% for category, message in messages %} 
+                <div class="notification {{ category }}">
+                  <button class="delete"></button>
+                  {{message}}
+                </div>
+              {% endfor %} 
+            {%endif %} 
+          {% endwith %} 
         {% block content %} {% endblock content %}
       </main>
     </div>
