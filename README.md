@@ -1,6 +1,6 @@
 # YouTube Download
 Grab the link of a video from youtube, paste it and voila, you can download it.<br/>
-PS: Downloading Playlists is not available yet, but it's coming very soon.
+PS: So far, only mp4 videos are supported and playlists are not yet supported
 
 ## Main Technologies used:
  - Python Flask
