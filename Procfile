@@ -1,1 +1,1 @@
-web: gunicorn youtube_download:app
+web: gunicorn run
