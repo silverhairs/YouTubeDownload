@@ -1,1 +1,1 @@
-web: gunicorn --chdir youtube_download run:app
+web: gunicorn run:app
