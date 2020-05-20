@@ -38,7 +38,7 @@ def results():
         stream.resolution
         for stream in video.streams.filter(progressive=True,
                                            file_extension='mp4')
-    ] if video is YouTube else [])
+    ])
     if request.method == 'POST':
         if form.validate_on_submit():
             return redirect(url_for('results', yt_url=form.video_url.data))
