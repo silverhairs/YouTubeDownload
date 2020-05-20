@@ -76,3 +76,23 @@ def download_video():
                              resolution=resolution).first().download(),
         as_attachment=True,
     )
+
+# -> Errors
+
+# -> 404
+@app.errorhandler(404)
+def error404(error):
+    title = 'Page Not Found'
+    return render_template('errors/404.html', title=title)
+
+# -> 500
+@app.errorhandler(500)
+def error500(error):
+    title = 'Internal Server Error'
+    return render_template('errors/500.html', title=title)
+
+# -> 400
+@app.errorhandler(400)
+def error400(error):
+    title = 'Bad Request'
+    return render_template('errors/400.html', title=title)

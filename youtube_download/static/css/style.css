@@ -5,13 +5,9 @@ html {
 }
 body {
   margin: 0;
-  /* min-height: 100%;
-  display: grid;
-  grid-template-rows: 1fr auto; */
   display: flex;
   flex-direction: column;
   min-height: 100%;
-
 }
 footer {
   margin-top: auto;
@@ -84,13 +80,31 @@ form {
     display: flex;
     flex-direction: column;
   }
-  form{
+  form {
     flex-direction: column;
   }
-  .search-btn{
+  .search-btn {
     margin: 0 !important;
   }
-  main{
+  main {
     height: auto;
   }
+}
+
+/*0000->Error<-0000*/
+.page-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.error-title {
+  text-align: center;
+  font-size: 5rem !important;
+  margin: 0 !important;
+  padding-top: 5px;
+}
+.error-subtitle {
+  text-align: center;
+  font-size: 2.5rem !important;
 }
