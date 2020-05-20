@@ -1,8 +1,14 @@
 from youtube_download import app
+from youtube_download.forms import SearchForm
 from flask import render_template, redirect, url_for, request, session, send_file, flash
 from pytube import YouTube
 from pytube.exceptions import RegexMatchError, LiveStreamError, VideoUnavailable
-from youtube_download.forms import SearchForm
+import requests
+
+
+# Url expander in the case the user serves a shortened url
+def expand_url(url):
+    return requests.head(url, allow_redirects=True).url
 
 
 # -> Index
@@ -11,7 +17,8 @@ def index():
     title = 'Welcome'
     form = SearchForm()
     if form.validate_on_submit():
-        return redirect(url_for('results', yt_url=form.video_url.data))
+        expanded_url = expand_url(form.video_url.data)
+        return redirect(url_for('results', yt_url=expanded_url))
     return render_template('index.html', form=form, title=title)
 
 
@@ -39,17 +46,14 @@ def results():
         for stream in video.streams.filter(progressive=True,
                                            file_extension='mp4')
     ])
+
+    # When the user serves a new url
     if request.method == 'POST':
         if form.validate_on_submit():
-            return redirect(url_for('results', yt_url=form.video_url.data))
-            # session['video_url'] = form.video_url.data
-            # return render_template(
-            #     'results.html',
-            #     video=video,
-            #     resolutions=resolutions,
-            #     form=form,
-            # )
+            expanded_url = expand_url(form.video_url.data)
+            return redirect(url_for('results', yt_url=expanded_url))
 
+    # Getting the youtube video after fetching
     elif request.method == 'GET':
         return render_template(
             'results.html',
